@@ -1,0 +1,1587 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calendário KSB Jundiaí 2026-2027</title>
+    <style>
+        :root {
+            --bg-primary: #ffffff;
+            --bg-secondary: #f5f8fa;
+            --text-primary: #1a1a1a;
+            --text-secondary: #666666;
+            --border-color: #e0e0e0;
+            --ksb-blue: #0066cc;
+            --ksb-blue-light: #e6f2ff;
+            --feriado: #ff4444;
+            --feriado-trabalhado: #ffeb3b;
+            --prolongamento-geral: #2196F3;
+            --prolongamento-adm: #9c27b0;
+            --prolongamento-1turno: #ff9800;
+            --card-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        [data-theme="dark"] {
+            --bg-primary: #1a1a1a;
+            --bg-secondary: #2d2d2d;
+            --text-primary: #ffffff;
+            --text-secondary: #b0b0b0;
+            --border-color: #404040;
+            --ksb-blue-light: #003d7a;
+            --card-shadow: 0 2px 8px rgba(0,0,0,0.3);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+            transition: all 0.3s ease;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            background: var(--ksb-blue);
+            color: white;
+            padding: 20px;
+            text-align: center;
+            box-shadow: var(--card-shadow);
+        }
+
+        header h1 {
+            font-size: clamp(1.5rem, 4vw, 2.5rem);
+            margin-bottom: 10px;
+        }
+
+        .header-subtitle {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
+        .controls {
+            background: var(--bg-primary);
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            box-shadow: var(--card-shadow);
+        }
+
+        .controls-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .control-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .control-group label {
+            font-weight: 600;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        select, button {
+            padding: 12px;
+            border: 2px solid var(--border-color);
+            border-radius: 6px;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        select:hover, select:focus {
+            border-color: var(--ksb-blue);
+            outline: none;
+        }
+
+        button {
+            background: var(--ksb-blue);
+            color: white;
+            border: none;
+            font-weight: 600;
+        }
+
+        button:hover {
+            opacity: 0.9;
+            transform: translateY(-2px);
+            box-shadow: var(--card-shadow);
+        }
+
+        .theme-toggle {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .theme-toggle button {
+            padding: 10px 20px;
+            font-size: 0.9rem;
+        }
+
+        .legend-section {
+            background: var(--bg-primary);
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            box-shadow: var(--card-shadow);
+        }
+
+        .legend-section h3 {
+            margin-bottom: 15px;
+            color: var(--ksb-blue);
+        }
+
+        .legend-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 10px;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px;
+            background: var(--bg-secondary);
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .legend-item:hover {
+            transform: translateX(5px);
+            box-shadow: var(--card-shadow);
+        }
+
+        .legend-color {
+            width: 30px;
+            height: 30px;
+            border-radius: 4px;
+            border: 2px solid var(--border-color);
+            flex-shrink: 0;
+        }
+
+        .legend-text {
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .horarios-section {
+            background: var(--ksb-blue-light);
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            border-left: 4px solid var(--ksb-blue);
+        }
+
+        .horarios-section h3 {
+            color: var(--ksb-blue);
+            margin-bottom: 15px;
+        }
+
+        .horarios-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 15px;
+        }
+
+        .horario-item {
+            background: var(--bg-primary);
+            padding: 12px;
+            border-radius: 6px;
+            border-left: 3px solid var(--ksb-blue);
+        }
+
+        .horario-item strong {
+            color: var(--ksb-blue);
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .calendar-container {
+            background: var(--bg-primary);
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: var(--card-shadow);
+            margin: 20px 0;
+        }
+
+        .year-view {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .month-card {
+            background: var(--bg-secondary);
+            padding: 15px;
+            border-radius: 8px;
+            border: 2px solid var(--border-color);
+        }
+
+        .month-header {
+            text-align: center;
+            font-weight: 700;
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+            color: var(--ksb-blue);
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--border-color);
+        }
+
+        .month-content {
+            display: grid;
+            grid-template-columns: 40px 1fr;
+            gap: 10px;
+        }
+
+        .calendar-grid-container {
+            display: grid;
+            grid-template-columns: 40px 1fr;
+            gap: 5px;
+            align-items: start;
+        }
+
+        .calendar-grid {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .weekdays {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 5px;
+            margin-bottom: 5px;
+        }
+
+        .weekday {
+            text-align: center;
+            font-weight: 600;
+            font-size: 0.8rem;
+            padding: 8px 4px;
+            color: var(--text-secondary);
+            background: var(--bg-primary);
+            border-radius: 4px;
+        }
+
+        .week-numbers {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            height: 100%;
+        }
+
+        .week-number {
+            flex: 1;
+            min-height: 45px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: var(--ksb-blue);
+            background: var(--ksb-blue-light);
+            border-radius: 4px;
+            border: 1px solid var(--border-color);
+        }
+            min-width: 35px;
+            padding: 8px 4px;
+            flex: 1;
+        }
+
+        .days-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 5px;
+        }
+
+        .day {
+            aspect-ratio: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.9rem;
+            border-radius: 6px;
+            cursor: pointer;
+            position: relative;
+            border: 2px solid transparent;
+            transition: all 0.3s;
+            background: var(--bg-primary);
+            min-height: 45px;
+        }
+
+        .day:hover {
+            border-color: var(--ksb-blue);
+            transform: scale(1.05);
+        }
+
+        .day.empty {
+            background: transparent;
+            cursor: default;
+        }
+
+        .day.empty:hover {
+            transform: none;
+            border-color: transparent;
+        }
+
+        .day.feriado {
+            background: var(--feriado);
+            color: white;
+            font-weight: 700;
+        }
+
+        .day.feriado-trabalhado {
+            background: var(--feriado-trabalhado);
+            color: #000;
+            font-weight: 700;
+        }
+
+        .day.prolongamento-geral {
+            background: var(--prolongamento-geral);
+            color: white;
+            font-weight: 700;
+        }
+
+        .day.prolongamento-adm {
+            background: var(--prolongamento-adm);
+            color: white;
+            font-weight: 700;
+        }
+
+        .day.prolongamento-1turno {
+            background: var(--prolongamento-1turno);
+            color: white;
+            font-weight: 700;
+        }
+
+        .day.weekend {
+            background: var(--bg-secondary);
+            color: var(--text-secondary);
+        }
+
+        .day.sunday {
+            background: linear-gradient(135deg, var(--bg-secondary) 0%, var(--ksb-blue-light) 100%);
+            font-weight: 600;
+        }
+
+        .day.diagonal {
+            position: relative;
+            overflow: hidden;
+            color: white;
+            font-weight: 700;
+        }
+
+        .day.diagonal::before,
+        .day.diagonal::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+        }
+
+        .day.diagonal::before {
+            background: var(--color1, var(--prolongamento-geral));
+            clip-path: polygon(0 0, 100% 0, 0 100%);
+        }
+
+        .day.diagonal::after {
+            background: var(--color2, var(--prolongamento-adm));
+            clip-path: polygon(100% 0, 100% 100%, 0 100%);
+        }
+
+        .day.diagonal span {
+            position: relative;
+            z-index: 1;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+        }
+
+        .day.feriado-trabalhado-todos {
+            background: var(--bg-primary);
+            border: 3px solid var(--text-primary) !important;
+            color: var(--feriado) !important;
+            font-weight: 900 !important;
+            font-size: 1rem !important;
+        }
+
+        /* Dias com cores diagonais (eventos mistos) */
+        .day.diagonal-mixed {
+            position: relative;
+            overflow: hidden;
+            color: white;
+            font-weight: 700;
+        }
+
+        .day.diagonal-mixed::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--color1);
+            clip-path: polygon(0 0, 100% 0, 0 100%);
+            z-index: -1;
+        }
+
+        .day.diagonal-mixed::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--color2);
+            clip-path: polygon(100% 0, 100% 100%, 0 100%);
+            z-index: -1;
+        }
+
+        .day.diagonal-feriado-prolongamento {
+            --color1: var(--feriado);
+            --color2: var(--prolongamento-geral);
+        }
+
+        .day.diagonal-trabalhado-prolongamento {
+            --color1: var(--feriado-trabalhado);
+            --color2: var(--prolongamento-adm);
+        }
+
+        .day.feriado-trabalhado-todos:hover {
+            box-shadow: 0 0 10px var(--feriado);
+        }
+
+        /* Dias com cores diagonais */
+        .day.diagonal {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .day.diagonal::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to bottom right, var(--color1) 0%, var(--color1) 49%, transparent 49%, transparent 51%, var(--color2) 51%, var(--color2) 100%);
+            z-index: 0;
+        }
+
+        .day.diagonal span {
+            position: relative;
+            z-index: 1;
+            color: white;
+            font-weight: 900;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.5);
+        }
+
+        .legend-color.diagonal {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .legend-color.diagonal::before,
+        .legend-color.diagonal::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+        }
+
+        .legend-color.diagonal::before {
+            background: var(--color1);
+            clip-path: polygon(0 0, 100% 0, 0 100%);
+        }
+
+        .legend-color.diagonal::after {
+            background: var(--color2);
+            clip-path: polygon(100% 0, 100% 100%, 0 100%);
+        }
+
+        /* Legendas específicas bicolores */
+        .legend-feriado-trabalhado {
+            --color1: var(--feriado);
+            --color2: var(--feriado-trabalhado);
+        }
+
+        .legend-prolongamento-misto {
+            --color1: var(--prolongamento-geral);
+            --color2: var(--prolongamento-adm);
+        }
+
+        .tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            border-bottom: 2px solid var(--border-color);
+        }
+
+        .tab {
+            padding: 12px 24px;
+            background: transparent;
+            border: none;
+            border-bottom: 3px solid transparent;
+            cursor: pointer;
+            font-weight: 600;
+            color: var(--text-secondary);
+            transition: all 0.3s;
+        }
+
+        .tab:hover {
+            color: var(--ksb-blue);
+            transform: none;
+            box-shadow: none;
+        }
+
+        .tab.active {
+            color: var(--ksb-blue);
+            border-bottom-color: var(--ksb-blue);
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: var(--bg-secondary);
+            padding: 20px;
+            border-radius: 8px;
+            border-left: 4px solid var(--ksb-blue);
+            text-align: center;
+        }
+
+        .stat-card h4 {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin-bottom: 10px;
+        }
+
+        .stat-card .stat-value {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--ksb-blue);
+        }
+
+        .stat-card .stat-label {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            margin-top: 5px;
+        }
+
+        .events-list {
+            background: var(--bg-secondary);
+            padding: 20px;
+            border-radius: 8px;
+        }
+
+        .event-item {
+            background: var(--bg-primary);
+            padding: 15px;
+            margin-bottom: 10px;
+            border-radius: 6px;
+            border-left: 4px solid var(--ksb-blue);
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .event-item:hover {
+            transform: translateX(5px);
+            box-shadow: var(--card-shadow);
+        }
+
+        .event-date {
+            font-weight: 700;
+            color: var(--ksb-blue);
+            margin-bottom: 5px;
+        }
+
+        .event-name {
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .event-type {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-top: 8px;
+        }
+
+        .event-type.feriado {
+            background: var(--feriado);
+            color: white;
+        }
+
+        .event-type.feriado-trabalhado {
+            background: var(--feriado-trabalhado);
+            color: #000;
+        }
+
+        .event-type.prolongamento-geral {
+            background: var(--prolongamento-geral);
+            color: white;
+        }
+
+        .event-type.prolongamento-adm {
+            background: var(--prolongamento-adm);
+            color: white;
+        }
+
+        .event-type.feriado-trabalhado-todos {
+            background: var(--bg-primary);
+            border: 2px solid var(--text-primary);
+            color: var(--feriado);
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: var(--bg-primary);
+            padding: 30px;
+            border-radius: 12px;
+            max-width: 600px;
+            width: 100%;
+            max-height: 80vh;
+            overflow-y: auto;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid var(--border-color);
+        }
+
+        .modal-header h2 {
+            color: var(--ksb-blue);
+        }
+
+        .close-modal {
+            background: transparent;
+            color: var(--text-primary);
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 5px 10px;
+        }
+
+        .close-modal:hover {
+            color: var(--feriado);
+        }
+
+        .modal-body {
+            color: var(--text-primary);
+        }
+
+        .modal-body p {
+            margin-bottom: 10px;
+            line-height: 1.6;
+        }
+
+        .modal-body strong {
+            color: var(--ksb-blue);
+        }
+
+        .modal-body ul {
+            margin-left: 20px;
+            margin-top: 10px;
+        }
+
+        .modal-body li {
+            margin-bottom: 8px;
+            line-height: 1.5;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+            }
+
+            .controls {
+                padding: 15px;
+            }
+
+            .controls-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .year-view {
+                grid-template-columns: 1fr;
+            }
+
+            .legend-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .horarios-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .day {
+                font-size: 0.8rem;
+            }
+
+            .weekday {
+                font-size: 0.7rem;
+                padding: 5px 2px;
+            }
+
+            .calendar-grid-container {
+                grid-template-columns: 28px 1fr;
+                gap: 3px;
+            }
+
+            .week-number {
+                font-size: 0.65rem;
+                min-height: 38px;
+                padding: 2px;
+            }
+
+            .modal-content {
+                padding: 20px;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .info-banner {
+            background: var(--ksb-blue-light);
+            padding: 15px;
+            border-radius: 8px;
+            margin: 20px 0;
+            border-left: 4px solid var(--ksb-blue);
+        }
+
+        .info-banner p {
+            margin: 5px 0;
+            font-size: 0.9rem;
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin-top: 40px;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: var(--text-secondary);
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>📅 Calendário KSB Jundiaí</h1>
+        <p class="header-subtitle">Calendário de Trabalho 2026-2027 | Proposta para Votação</p>
+    </header>
+
+    <div class="container">
+        <div class="controls">
+            <div class="controls-grid">
+                <div class="control-group">
+                    <label for="yearSelect">Ano:</label>
+                    <select id="yearSelect">
+                        <option value="2026">2026</option>
+                        <option value="2027">2027</option>
+                    </select>
+                </div>
+
+                <div class="control-group">
+                    <label for="viewMode">Visualização:</label>
+                    <select id="viewMode">
+                        <option value="year">Anual</option>
+                        <option value="month">Mensal</option>
+                    </select>
+                </div>
+
+                <div class="control-group" id="monthSelectGroup" style="display: none;">
+                    <label for="monthSelect">Mês:</label>
+                    <select id="monthSelect">
+                        <option value="0">Janeiro</option>
+                        <option value="1">Fevereiro</option>
+                        <option value="2">Março</option>
+                        <option value="3">Abril</option>
+                        <option value="4">Maio</option>
+                        <option value="5">Junho</option>
+                        <option value="6">Julho</option>
+                        <option value="7">Agosto</option>
+                        <option value="8">Setembro</option>
+                        <option value="9">Outubro</option>
+                        <option value="10">Novembro</option>
+                        <option value="11">Dezembro</option>
+                    </select>
+                </div>
+
+                <div class="control-group theme-toggle">
+                    <button id="themeToggle">🌙 Tema Escuro</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="horarios-section">
+            <h3>⏰ Horários de Trabalho</h3>
+            <div class="horarios-grid" id="horariosGrid"></div>
+        </div>
+
+        <div class="legend-section">
+            <h3>📋 Legendas</h3>
+            <div class="legend-grid">
+                <div class="legend-item" onclick="showLegendInfo('feriado')">
+                    <div class="legend-color" style="background: var(--feriado);"></div>
+                    <span class="legend-text">Feriado</span>
+                </div>
+                <div class="legend-item" onclick="showLegendInfo('feriado-trabalhado')">
+                    <div class="legend-color" style="background: var(--feriado-trabalhado);"></div>
+                    <span class="legend-text">Feriado Trabalhado (1º/3º Turno)</span>
+                </div>
+                <div class="legend-item" onclick="showLegendInfo('prolongamento-geral')">
+                    <div class="legend-color" style="background: var(--prolongamento-geral);"></div>
+                    <span class="legend-text">Prolongamento Geral</span>
+                </div>
+                <div class="legend-item" onclick="showLegendInfo('prolongamento-adm')">
+                    <div class="legend-color" style="background: var(--prolongamento-adm);"></div>
+                    <span class="legend-text">Prolongamento Adm e 2º Turno</span>
+                </div>
+                <div class="legend-item" onclick="showLegendInfo('prolongamento-1turno')">
+                    <div class="legend-color" style="background: var(--prolongamento-1turno);"></div>
+                    <span class="legend-text">Prolongamento 1º Turno</span>
+                </div>
+                <div class="legend-item" onclick="showLegendInfo('feriado-trabalhado-todos')">
+                    <div class="legend-color" style="background: var(--bg-primary); border: 3px solid var(--text-primary);"></div>
+                    <span class="legend-text">Feriado Trabalhado (Todos) - Número Vermelho</span>
+                </div>
+                <div class="legend-item" onclick="showLegendInfo('exemplo-diagonal')">
+                    <div class="legend-color diagonal legend-feriado-trabalhado"></div>
+                    <span class="legend-text">Exemplo: Feriado + Trabalhado</span>
+                </div>
+                <div class="legend-item" onclick="showLegendInfo('exemplo-prolongamento')">
+                    <div class="legend-color diagonal legend-prolongamento-misto"></div>
+                    <span class="legend-text">Exemplo: Prolongamentos Mistos</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="calendar-container">
+            <div class="tabs">
+                <button class="tab active" onclick="switchTab('calendar')">📅 Calendário</button>
+                <button class="tab" onclick="switchTab('stats')">📊 Eventos & Estatísticas</button>
+            </div>
+            
+            <div id="calendarTab" class="tab-content active">
+                <div id="calendarView"></div>
+            </div>
+            
+            <div id="statsTab" class="tab-content">
+                <h3 style="margin-bottom: 20px; color: var(--ksb-blue);">Estatísticas do Ano <span id="statsYear"></span></h3>
+                <div class="stats-grid" id="statsGrid"></div>
+                
+                <h3 style="margin: 30px 0 20px; color: var(--ksb-blue);">📋 Todos os Eventos do Ano</h3>
+                <div class="events-list" id="eventsList"></div>
+            </div>
+        </div>
+
+        <div class="info-banner">
+            <p><strong>📌 Observações Importantes:</strong></p>
+            <p>• Clique nas legendas acima para ver detalhes sobre cada tipo de evento</p>
+            <p>• Clique nos dias do calendário para ver informações específicas e compensações</p>
+            <p>• <strong>Feriados trabalhados (todos)</strong> aparecem com <span style="color: var(--feriado); font-weight: 900;">número vermelho em negrito</span> e borda destacada</p>
+            <p>• Os <strong>domingos</strong> têm um leve destaque em gradiente azul para fácil identificação</p>
+            <p>• <strong>Dias com cores diagonais</strong> indicam eventos mistos (diferentes tratamentos por turno)</p>
+            <p>• Use a aba <strong>"Eventos & Estatísticas"</strong> para ver o resumo completo e contagem de folgas por turno</p>
+            <p>• <strong>Prolongamento</strong> = "Ponte" ou dia de folga obtido por compensação de horas</p>
+            <p>• <strong>Números de semana</strong> à esquerda indicam a semana do ano (padrão ISO)</p>
+            <p>• Este calendário contempla os 3 turnos de trabalho da KSB Jundiaí</p>
+        </div>
+    </div>
+
+    <footer>
+        <p>© 2024 KSB Jundiaí - Calendário de Trabalho | Proposta para Votação</p>
+    </footer>
+
+    <!-- Modal -->
+    <div id="modal" class="modal" onclick="closeModalOnOutside(event)">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modalTitle"></h2>
+                <button class="close-modal" onclick="closeModal()">×</button>
+            </div>
+            <div class="modal-body" id="modalBody"></div>
+        </div>
+    </div>
+
+    <script>
+        // Dados dos calendários
+        const calendarData = {
+            2026: {
+                horarios: {
+                    administrativo: "2ª a 5ª: 7:15 às 17:15h | 6ª: 7:15 às 16:15h",
+                    turno1: "2ª a 6ª: 05:00 às 12:42h | Sábados: 5:00 às 13:30h",
+                    turno2: "2ª a 6ª: 12:42 às 22:00h",
+                    turno3: "Domingo a 6ª: 22:00 às 05:00h"
+                },
+                events: {
+                    "2026-01-01": {type: "feriado", name: "Confraternização Universal"},
+                    "2026-01-02": {type: "prolongamento-geral", name: "Prolongamento (trabalhado em 21/04)"},
+                    "2026-01-03": {type: "prolongamento-geral", name: "Prolongamento (trabalhado na tarde do dia 09/07)"},
+                    
+                    "2026-02-16": {type: "prolongamento-adm", name: "Prolongamento Adm e 2º Turno - Troca horas SF 15/08", details: "** 1º e 3º Turno - Prolongamento - trabalhado em 15/08"},
+                    "2026-02-17": {type: "prolongamento-geral", name: "Carnaval - Prolongamento - dia abonado pela empresa"},
+                    
+                    "2026-03-03": {type: "feriado", name: "Paixão de Cristo", details: "** 1º Turno - Expediente do sábado dia 02/05 (5:00-13:30 hs)\n** 3º Turno - Expediente do sábado (dia 02/05)"},
+                    
+                    "2026-04-21": {type: "feriado-trabalhado-todos", name: "Tiradentes - Expediente normal", details: "** TROCA pelo prolongamento dia 02/01"},
+                    
+                    "2026-05-01": {type: "feriado", name: "Dia do Trabalho"},
+                    "2026-05-02": {type: "prolongamento-geral", name: "Prolongamento (trabalhado em 03/04)"},
+                    
+                    "2026-06-04": {type: "feriado", name: "Corpus Christi", details: "** 1º Turno - Expediente da sexta (5:00-12:42 hs)\n** 3º Turno - Expediente do sexta (dia 05/06)"},
+                    "2026-06-05": {type: "prolongamento-adm", name: "Prolongamento Adm e 2º Turno (trabalhado em 09/07)", details: "** 1º Turno - Expediente do sábado (5:00-13:30 hs)\n** 3º Turno - Expediente do sábado (dia 06/06)"},
+                    "2026-06-06": {type: "prolongamento-geral", name: "Prolongamento (trabalhado 05/06)"},
+                    
+                    "2026-07-09": {type: "feriado-trabalhado-todos", name: "Revolução Constitucionalista - Expediente normal", details: "** Adm e 1º turno - troca prolongamento 05/06\n** 2º e 3º Turno - troca Expediente do sábado (dia 03/01)"},
+                    
+                    "2026-08-15": {type: "feriado", name: "Padroeira da Cidade - Sábado Feriado", details: "** Adm e 2º Turno - Horas utilizadas na ponte dia 16/02\n** 1º e 3º Turno - Expediente normal - Troca pelo dia 16/02"},
+                    
+                    "2026-09-07": {type: "feriado-trabalhado-todos", name: "Independência do Brasil", details: "** 1º Turno - Expediente do sábado dia 26/12 (5:00-13:30 hs)\n** 3º Turno - Expediente do sábado (dia 26/12)"},
+                    
+                    "2026-10-12": {type: "feriado", name: "Nossa Senhora Aparecida", details: "** TROCA pelo prolongamento dia 24/12"},
+                    
+                    "2026-11-02": {type: "feriado-trabalhado-todos", name: "Finados - Expediente normal", details: "** TROCA pelo prolongamento dia 24/12"},
+                    "2026-11-15": {type: "feriado-trabalhado-todos", name: "Proclamação da República"},
+                    "2026-11-20": {type: "feriado-trabalhado-todos", name: "Consciência Negra - Expediente normal", details: "** TROCA pelo prolongamento dia 31/12"},
+                    
+                    "2026-12-24": {type: "prolongamento-geral", name: "Prolongamento (trabalhado em 02/11)"},
+                    "2026-12-25": {type: "feriado", name: "Natal"},
+                    "2026-12-26": {type: "prolongamento-geral", name: "Prolongamento (trabalhado em 12/10)"},
+                    "2026-12-31": {type: "prolongamento-adm", name: "Prolongamento Adm e 2º Turno (trabalhado em 20/11)", details: "** 1º e 3º Turno - Expediente normal - Troca pelo dia 31/12"}
+                }
+            },
+            2027: {
+                horarios: {
+                    administrativo: "2ª a 5ª: 7:30 às 17:30h | 6ª: 7:30 às 16:30h",
+                    turno1: "2ª a 6ª: 05:00 às 12:42h | Sábados: 5:00 às 13:30h",
+                    turno2: "2ª a 6ª: 12:42 às 22:00h",
+                    turno3: "Domingo a 6ª: 22:00 às 05:00h"
+                },
+                events: {
+                    "2027-01-01": {type: "feriado", name: "Confraternização Universal"},
+                    "2027-01-02": {type: "prolongamento-geral", name: "Prolongamento (trabalhado em 26/03)", details: "** 1º Turno - Expediente do sábado - 02/01 (5:00-13:30 hs)\n** 3º Turno - Expediente do sábado - 02/01"},
+                    
+                    "2027-02-08": {type: "prolongamento-geral", name: "Prolongamento (trabalhado em 21/04)", details: "** TROCA pelo prolongamento dia 08/02"},
+                    "2027-02-09": {type: "prolongamento-geral", name: "Carnaval - Prolongamento - dia abonado pela empresa"},
+                    
+                    "2027-03-26": {type: "feriado", name: "Paixão de Cristo"},
+                    
+                    "2027-04-21": {type: "feriado-trabalhado-todos", name: "Tiradentes - Expediente normal"},
+                    
+                    "2027-05-01": {type: "feriado", name: "Dia do Trabalho - Sábado feriado", details: "** Adm e 2º Turno - horas utilizadas na ponte dia 28/05"},
+                    "2027-05-27": {type: "feriado", name: "Corpus Christi", details: "** 1º Turno - Expediente da sexta - 28/05 (5:00-12:42 hs)\n** 3º Turno - Expediente do sexta - 28/05"},
+                    "2027-05-28": {type: "prolongamento-adm", name: "Prolongamento Adm e 2º Turno - Troca horas SF 01/05", details: "** 1º Turno - Expediente do sábado - 29/05 (5:00-13:30 hs)\n** 3º Turno - Expediente do sábado - 29/05"},
+                    "2027-05-29": {type: "prolongamento-geral", name: "Prolongamento (trabalhado em 28/05)"},
+                    
+                    "2027-07-09": {type: "feriado", name: "Revolução Constitucionalista", details: "** Adm e 2º Turno - Prolongamento - Troca horas SF - 25/12\n** 1º e 3º Turno - Prolongamento - trabalhado em 09/07"},
+                    "2027-07-11": {type: "prolongamento-adm", name: "Prolongamento Adm e 2º Turno"},
+                    "2027-07-12": {type: "prolongamento-geral", name: "Nossa Senhora Aparecida"},
+                    
+                    "2027-08-15": {type: "feriado", name: "Padroeira da Cidade", details: "** 1º Turno - Expediente da segunda - 11/10 (5:00-12:42 hs)\n** 3º Turno - Expediente da segunda 11/10"},
+                    
+                    "2027-09-06": {type: "prolongamento-geral", name: "Prolongamento (trabalhado em 07/09)", details: "** TROCA pelo prolongamento dia 06/09"},
+                    "2027-09-07": {type: "feriado-trabalhado-todos", name: "Independência do Brasil - expediente normal"},
+                    
+                    "2027-10-11": {type: "feriado-trabalhado-todos", name: "Segunda prolongamento"},
+                    "2027-10-12": {type: "feriado", name: "Nossa Senhora Aparecida"},
+                    
+                    "2027-11-02": {type: "feriado-trabalhado-todos", name: "Finados - Expediente normal"},
+                    "2027-11-15": {type: "feriado-trabalhado-todos", name: "Proclamação da República"},
+                    "2027-11-20": {type: "feriado", name: "Consciência Negra - Sábado Feriado", details: "** Adm e 2º Turno - horas utilizadas na ponte dia 31/12\n** 1º e 3º Turno - Expediente normal - Troca pelo dia 31/12"},
+                    
+                    "2027-12-24": {type: "prolongamento-geral", name: "Prolongamento (trabalhado em 02/11)", details: "** TROCA pelo prolongamento dia 24/12"},
+                    "2027-12-25": {type: "feriado", name: "Natal - Sábado Feriado", details: "** Adm e 2º Turno - horas utilizadas na ponte dia 11/10"},
+                    "2027-12-31": {type: "prolongamento-adm", name: "Prolongamento Adm e 2º Turno - troca horas SF 20/11", details: "** 1º e 3º Turno - Prolongamento - trabalhado em 20/11"}
+                }
+            }
+        };
+
+        // Informações das legendas
+        const legendInfo = {
+            'feriado': {
+                title: 'Feriado',
+                description: 'Dia de feriado oficial. Não há expediente para nenhum turno.',
+                affects: 'Todos os turnos'
+            },
+            'feriado-trabalhado': {
+                title: 'Feriado Trabalhado (1º e 3º Turno)',
+                description: 'Feriado em que apenas o 1º e 3º turno trabalham em regime de compensação. O Administrativo e 2º Turno não trabalham.',
+                affects: '1º Turno e 3º Turno trabalham | Adm e 2º Turno não trabalham'
+            },
+            'prolongamento-geral': {
+                title: 'Prolongamento Geral',
+                description: 'Dia de folga (prolongamento de fim de semana ou feriado) para todos os turnos. Geralmente obtido através de compensação em outros dias. Também chamado de "ponte".',
+                affects: 'Todos os turnos'
+            },
+            'prolongamento-adm': {
+                title: 'Prolongamento Administrativo e 2º Turno',
+                description: 'Dia de folga apenas para o turno Administrativo e 2º Turno. O 1º e 3º turno trabalham normalmente ou em regime especial. Também chamado de "ponte" para estes turnos.',
+                affects: 'Adm e 2º Turno (folga) | 1º e 3º Turno (trabalham)'
+            },
+            'prolongamento-1turno': {
+                title: 'Prolongamento 1º Turno',
+                description: 'Dia de folga específico para o 1º Turno. Demais turnos trabalham normalmente. Também chamado de "ponte" para este turno.',
+                affects: '1º Turno (folga) | Demais turnos (trabalham)'
+            },
+            'feriado-trabalhado-todos': {
+                title: 'Feriado Trabalhado (Todos os Turnos)',
+                description: 'Feriado em que todos os turnos trabalham em expediente normal, geralmente para compensar prolongamentos em outras datas. Identificado por NÚMERO VERMELHO E NEGRITO com borda destacada.',
+                affects: 'Todos os turnos trabalham'
+            },
+            'exemplo-diagonal': {
+                title: 'Legendas com Dupla Cor (Diagonal)',
+                description: 'Alguns dias podem ter características mistas. As legendas com diagonal mostram quando um dia tem duas características diferentes, como um feriado que também é trabalhado por alguns turnos. A diagonal divide as cores para representar visualmente essa combinação.',
+                affects: 'Varia conforme a combinação'
+            },
+            'exemplo-prolongamento': {
+                title: 'Prolongamentos Mistos',
+                description: 'Quando diferentes turnos têm tratamentos diferentes no mesmo dia (ex: prolongamento para uns, trabalho normal para outros), a legenda diagonal ajuda a visualizar essa combinação.',
+                affects: 'Varia por turno'
+            }
+        };
+
+        // Estado da aplicação
+        let currentYear = 2026;
+        let currentMonth = 0;
+        let viewMode = 'year';
+        let isDarkTheme = false;
+
+        // Inicialização
+        document.addEventListener('DOMContentLoaded', function() {
+            setupEventListeners();
+            renderCalendar();
+            renderHorarios();
+            renderStats();
+        });
+
+        function setupEventListeners() {
+            document.getElementById('yearSelect').addEventListener('change', function(e) {
+                currentYear = parseInt(e.target.value);
+                renderCalendar();
+                renderHorarios();
+                renderStats();
+            });
+
+            document.getElementById('viewMode').addEventListener('change', function(e) {
+                viewMode = e.target.value;
+                const monthGroup = document.getElementById('monthSelectGroup');
+                monthGroup.style.display = viewMode === 'month' ? 'flex' : 'none';
+                renderCalendar();
+            });
+
+            document.getElementById('monthSelect').addEventListener('change', function(e) {
+                currentMonth = parseInt(e.target.value);
+                renderCalendar();
+            });
+
+            document.getElementById('themeToggle').addEventListener('click', toggleTheme);
+        }
+
+        function switchTab(tabName) {
+            // Remove active de todas as abas
+            document.querySelectorAll('.tab').forEach(tab => tab.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+            
+            // Ativa a aba selecionada
+            if (tabName === 'calendar') {
+                document.querySelector('.tab:nth-child(1)').classList.add('active');
+                document.getElementById('calendarTab').classList.add('active');
+            } else if (tabName === 'stats') {
+                document.querySelector('.tab:nth-child(2)').classList.add('active');
+                document.getElementById('statsTab').classList.add('active');
+            }
+        }
+
+        function toggleTheme() {
+            isDarkTheme = !isDarkTheme;
+            document.body.setAttribute('data-theme', isDarkTheme ? 'dark' : 'light');
+            document.getElementById('themeToggle').textContent = isDarkTheme ? '☀️ Tema Claro' : '🌙 Tema Escuro';
+        }
+
+        function renderHorarios() {
+            const horariosGrid = document.getElementById('horariosGrid');
+            const horarios = calendarData[currentYear].horarios;
+            
+            horariosGrid.innerHTML = `
+                <div class="horario-item">
+                    <strong>Administrativo</strong>
+                    ${horarios.administrativo}
+                </div>
+                <div class="horario-item">
+                    <strong>1º Turno</strong>
+                    ${horarios.turno1}
+                </div>
+                <div class="horario-item">
+                    <strong>2º Turno</strong>
+                    ${horarios.turno2}
+                </div>
+                <div class="horario-item">
+                    <strong>3º Turno</strong>
+                    ${horarios.turno3}
+                </div>
+            `;
+        }
+
+        function renderCalendar() {
+            const calendarView = document.getElementById('calendarView');
+            
+            if (viewMode === 'year') {
+                renderYearView(calendarView);
+            } else {
+                renderMonthView(calendarView);
+            }
+        }
+
+        function renderYearView(container) {
+            const months = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 
+                          'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'];
+            
+            let html = '<div class="year-view">';
+            
+            for (let month = 0; month < 12; month++) {
+                html += renderMonth(month, months[month]);
+            }
+            
+            html += '</div>';
+            container.innerHTML = html;
+        }
+
+        function renderMonthView(container) {
+            const months = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 
+                          'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'];
+            
+            container.innerHTML = renderMonth(currentMonth, months[currentMonth], true);
+        }
+
+        function getWeekNumber(date) {
+            // Calcula a semana baseado no padrão KSB: 
+            // Semana 1 = primeira semana do ano (contém 1º de janeiro)
+            const currentDate = new Date(date);
+            const yearStart = new Date(date.getFullYear(), 0, 1);
+            
+            // Encontrar o domingo da semana que contém 1º de janeiro
+            const firstSunday = new Date(yearStart);
+            firstSunday.setDate(yearStart.getDate() - yearStart.getDay());
+            
+            // Se o 1º de janeiro cai depois de quinta, a semana 1 começa no próximo domingo
+            if (yearStart.getDay() === 0) {
+                firstSunday.setDate(yearStart.getDate());
+            }
+            
+            // Calcular diferença em semanas
+            const diffTime = currentDate - firstSunday;
+            const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+            const weekNumber = Math.floor(diffDays / 7) + 1;
+            
+            return weekNumber;
+        }
+
+        function renderMonth(monthIndex, monthName, isLarge = false) {
+            const firstDay = new Date(currentYear, monthIndex, 1);
+            const lastDay = new Date(currentYear, monthIndex + 1, 0);
+            const daysInMonth = lastDay.getDate();
+            const startingDayOfWeek = firstDay.getDay();
+            
+            let html = `<div class="month-card">
+                <div class="month-header">${monthName} ${currentYear}</div>
+                <div class="calendar-grid-container">`;
+            
+            // Criar array de dias incluindo vazios
+            const allDays = [];
+            
+            // Dias vazios antes do início do mês
+            for (let i = 0; i < startingDayOfWeek; i++) {
+                allDays.push({ type: 'empty' });
+            }
+            
+            // Dias do mês
+            for (let day = 1; day <= daysInMonth; day++) {
+                const date = new Date(currentYear, monthIndex, day);
+                const dateStr = `${currentYear}-${String(monthIndex + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+                const event = calendarData[currentYear].events[dateStr];
+                const dayOfWeek = date.getDay();
+                
+                let classes = 'day';
+                let eventType = '';
+                let isDiagonal = false;
+                
+                if (event) {
+                    classes += ` ${event.type}`;
+                    eventType = event.type;
+                    
+                    // Verificar se deve ter diagonal (eventos mistos)
+                    // Por exemplo, se details contém informações de turnos diferentes
+                    if (event.details && event.details.includes('**')) {
+                        const details = event.details.toLowerCase();
+                        if ((details.includes('adm') || details.includes('2º turno')) && 
+                            (details.includes('1º') || details.includes('3º'))) {
+                            isDiagonal = true;
+                        }
+                    }
+                } else if (dayOfWeek === 0) {
+                    classes += ' sunday';
+                } else if (dayOfWeek === 6) {
+                    classes += ' weekend';
+                }
+                
+                allDays.push({
+                    type: 'day',
+                    day,
+                    classes,
+                    dateStr,
+                    monthName,
+                    eventType,
+                    isDiagonal
+                });
+            }
+            
+            // Completar última semana com dias vazios se necessário
+            while (allDays.length % 7 !== 0) {
+                allDays.push({ type: 'empty' });
+            }
+            
+            // Calcular número de semanas
+            const numWeeks = allDays.length / 7;
+            
+            // Renderizar números de semana
+            html += '<div class="week-numbers">';
+            for (let week = 0; week < numWeeks; week++) {
+                // Calcular o dia que corresponde ao início desta linha (domingo)
+                const daysFromStart = week * 7;
+                const dayInMonth = 1 - startingDayOfWeek + daysFromStart;
+                const weekDate = new Date(currentYear, monthIndex, dayInMonth);
+                const weekNum = getWeekNumber(weekDate);
+                html += `<div class="week-number">${weekNum}</div>`;
+            }
+            html += '</div>';
+            
+            html += '<div class="calendar-grid">';
+            html += '<div class="weekdays">';
+            html += '<div class="weekday">Dom</div>';
+            html += '<div class="weekday">Seg</div>';
+            html += '<div class="weekday">Ter</div>';
+            html += '<div class="weekday">Qua</div>';
+            html += '<div class="weekday">Qui</div>';
+            html += '<div class="weekday">Sex</div>';
+            html += '<div class="weekday">Sáb</div>';
+            html += '</div>';
+            
+            html += '<div class="days-grid">';
+            allDays.forEach(item => {
+                if (item.type === 'empty') {
+                    html += '<div class="day empty"></div>';
+                } else {
+                    const dayContent = item.isDiagonal ? `<span>${item.day}</span>` : item.day;
+                    const diagonalClass = item.isDiagonal ? ' diagonal' : '';
+                    
+                    // Definir cores para diagonal baseado no tipo de evento
+                    let style = '';
+                    if (item.isDiagonal) {
+                        // Determinar cores baseadas no tipo de evento e detalhes
+                        let color1 = 'var(--prolongamento-geral)';
+                        let color2 = 'var(--prolongamento-adm)';
+                        
+                        if (item.eventType === 'prolongamento-adm') {
+                            color1 = 'var(--prolongamento-adm)';
+                            color2 = 'var(--prolongamento-1turno)';
+                        } else if (item.eventType === 'feriado-trabalhado') {
+                            color1 = 'var(--feriado)';
+                            color2 = 'var(--feriado-trabalhado)';
+                        }
+                        
+                        style = ` style="--color1: ${color1}; --color2: ${color2};"`;
+                    }
+                    
+                    html += `<div class="${item.classes}${diagonalClass}"${style} onclick="showDayInfo('${item.dateStr}', ${item.day}, '${item.monthName}', '${item.eventType}')">${dayContent}</div>`;
+                }
+            });
+            html += '</div></div></div></div>';
+            return html;
+        }
+
+        function showDayInfo(dateStr, day, month, eventType) {
+            const event = calendarData[currentYear].events[dateStr];
+            
+            if (!event) {
+                const date = new Date(dateStr);
+                const dayOfWeek = date.getDay();
+                if (dayOfWeek === 0 || dayOfWeek === 6) {
+                    showModal(`${day} de ${month} - Final de Semana`, 
+                             '<p>Este é um dia de final de semana. Consulte os horários específicos de cada turno.</p>');
+                }
+                return;
+            }
+            
+            let content = `<p><strong>Tipo:</strong> ${legendInfo[eventType]?.title || 'Evento'}</p>`;
+            content += `<p><strong>Descrição:</strong> ${event.name}</p>`;
+            
+            if (event.details) {
+                content += `<p><strong>Observações:</strong></p>`;
+                const details = event.details.split('\n');
+                content += '<ul>';
+                details.forEach(detail => {
+                    if (detail.trim()) {
+                        content += `<li>${detail.replace('**', '').trim()}</li>`;
+                    }
+                });
+                content += '</ul>';
+            }
+            
+            content += `<p style="margin-top: 15px;"><strong>Afeta:</strong> ${legendInfo[eventType]?.affects || 'Verificar observações'}</p>`;
+            
+            showModal(`${day} de ${month} de ${currentYear}`, content);
+        }
+
+        function showLegendInfo(type) {
+            const info = legendInfo[type];
+            if (!info) return;
+            
+            let content = `<p>${info.description}</p>`;
+            content += `<p style="margin-top: 15px;"><strong>Afeta:</strong> ${info.affects}</p>`;
+            
+            showModal(info.title, content);
+        }
+
+        function renderStats() {
+            document.getElementById('statsYear').textContent = currentYear;
+            
+            const events = calendarData[currentYear].events;
+            
+            // Calcular estatísticas
+            const stats = {
+                totalFeriados: 0,
+                feriadosTrabalhados1e3: 0,
+                feriadosTrabalhadosTodos: 0,
+                prolongamentosGeral: 0,
+                prolongamentosAdm: 0,
+                prolongamentos1Turno: 0,
+                totalEventos: 0
+            };
+            
+            Object.values(events).forEach(event => {
+                stats.totalEventos++;
+                
+                switch(event.type) {
+                    case 'feriado':
+                        stats.totalFeriados++;
+                        break;
+                    case 'feriado-trabalhado':
+                        stats.feriadosTrabalhados1e3++;
+                        break;
+                    case 'feriado-trabalhado-todos':
+                        stats.feriadosTrabalhadosTodos++;
+                        break;
+                    case 'prolongamento-geral':
+                        stats.prolongamentosGeral++;
+                        break;
+                    case 'prolongamento-adm':
+                        stats.prolongamentosAdm++;
+                        break;
+                    case 'prolongamento-1turno':
+                        stats.prolongamentos1Turno++;
+                        break;
+                }
+            });
+            
+            // Calcular dias de folga por turno
+            const folgasAdm = stats.totalFeriados + stats.prolongamentosGeral + stats.prolongamentosAdm;
+            const folgas1Turno = stats.totalFeriados + stats.prolongamentosGeral + stats.prolongamentos1Turno;
+            const folgas2Turno = stats.totalFeriados + stats.prolongamentosGeral + stats.prolongamentosAdm;
+            const folgas3Turno = stats.totalFeriados + stats.prolongamentosGeral + stats.prolongamentos1Turno;
+            
+            const statsHTML = `
+                <div class="stat-card">
+                    <h4>Total de Eventos</h4>
+                    <div class="stat-value">${stats.totalEventos}</div>
+                    <div class="stat-label">eventos cadastrados</div>
+                </div>
+                
+                <div class="stat-card">
+                    <h4>Feriados (Folga Geral)</h4>
+                    <div class="stat-value">${stats.totalFeriados}</div>
+                    <div class="stat-label">todos os turnos</div>
+                </div>
+                
+                <div class="stat-card">
+                    <h4>Prolongamentos Gerais</h4>
+                    <div class="stat-value">${stats.prolongamentosGeral}</div>
+                    <div class="stat-label">folga para todos</div>
+                </div>
+                
+                <div class="stat-card">
+                    <h4>Prolongamentos Adm/2º Turno</h4>
+                    <div class="stat-value">${stats.prolongamentosAdm}</div>
+                    <div class="stat-label">folga específica</div>
+                </div>
+                
+                <div class="stat-card">
+                    <h4>Prolongamentos 1º Turno</h4>
+                    <div class="stat-value">${stats.prolongamentos1Turno}</div>
+                    <div class="stat-label">folga específica</div>
+                </div>
+                
+                <div class="stat-card">
+                    <h4>Feriados Trabalhados (1º/3º)</h4>
+                    <div class="stat-value">${stats.feriadosTrabalhados1e3}</div>
+                    <div class="stat-label">compensação</div>
+                </div>
+                
+                <div class="stat-card">
+                    <h4>Feriados Trabalhados (Todos)</h4>
+                    <div class="stat-value">${stats.feriadosTrabalhadosTodos}</div>
+                    <div class="stat-label">expediente normal</div>
+                </div>
+                
+                <div class="stat-card" style="border-left-color: #4caf50;">
+                    <h4>Folgas Administrativo</h4>
+                    <div class="stat-value" style="color: #4caf50;">${folgasAdm}</div>
+                    <div class="stat-label">dias de folga no ano</div>
+                </div>
+                
+                <div class="stat-card" style="border-left-color: #ff9800;">
+                    <h4>Folgas 1º Turno</h4>
+                    <div class="stat-value" style="color: #ff9800;">${folgas1Turno}</div>
+                    <div class="stat-label">dias de folga no ano</div>
+                </div>
+                
+                <div class="stat-card" style="border-left-color: #9c27b0;">
+                    <h4>Folgas 2º Turno</h4>
+                    <div class="stat-value" style="color: #9c27b0;">${folgas2Turno}</div>
+                    <div class="stat-label">dias de folga no ano</div>
+                </div>
+                
+                <div class="stat-card" style="border-left-color: #2196f3;">
+                    <h4>Folgas 3º Turno</h4>
+                    <div class="stat-value" style="color: #2196f3;">${folgas3Turno}</div>
+                    <div class="stat-label">dias de folga no ano</div>
+                </div>
+            `;
+            
+            document.getElementById('statsGrid').innerHTML = statsHTML;
+            
+            // Renderizar lista de eventos
+            renderEventsList();
+        }
+
+        function renderEventsList() {
+            const events = calendarData[currentYear].events;
+            const eventsList = document.getElementById('eventsList');
+            
+            // Converter eventos em array e ordenar por data
+            const eventsArray = Object.entries(events).map(([dateStr, event]) => {
+                return {
+                    dateStr,
+                    date: new Date(dateStr),
+                    ...event
+                };
+            }).sort((a, b) => a.date - b.date);
+            
+            const months = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 
+                          'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'];
+            
+            let html = '';
+            
+            eventsArray.forEach(event => {
+                const day = event.date.getDate();
+                const month = months[event.date.getMonth()];
+                const typeLabel = legendInfo[event.type]?.title || event.type;
+                
+                html += `
+                    <div class="event-item" onclick="showDayInfo('${event.dateStr}', ${day}, '${month}', '${event.type}')">
+                        <div class="event-date">${day} de ${month}</div>
+                        <div class="event-name">${event.name}</div>
+                        <span class="event-type ${event.type}">${typeLabel}</span>
+                    </div>
+                `;
+            });
+            
+            eventsList.innerHTML = html;
+        }
+
+        function showModal(title, content) {
+            document.getElementById('modalTitle').textContent = title;
+            document.getElementById('modalBody').innerHTML = content;
+            document.getElementById('modal').classList.add('active');
+        }
+
+        function closeModal() {
+            document.getElementById('modal').classList.remove('active');
+        }
+
+        function closeModalOnOutside(event) {
+            if (event.target.id === 'modal') {
+                closeModal();
+            }
+        }
+
+        // Tecla ESC fecha o modal
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closeModal();
+            }
+        });
+    </script>
+</body>
+</html>
