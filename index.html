@@ -183,6 +183,40 @@
             font-weight: 500;
         }
 
+        /* Legendas com divisão diagonal */
+        .legend-color.diagonal {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .legend-color.diagonal::before,
+        .legend-color.diagonal::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+        }
+
+        .legend-color.diagonal::before {
+            background: var(--color1);
+            clip-path: polygon(0 0, 100% 0, 0 100%);
+        }
+
+        .legend-color.diagonal::after {
+            background: var(--color2);
+            clip-path: polygon(100% 0, 100% 100%, 0 100%);
+        }
+
+        .legend-feriado-trabalhado {
+            --color1: var(--feriado);
+            --color2: var(--feriado-trabalhado);
+        }
+
+        .legend-prolongamento-misto {
+            --color1: var(--prolongamento-geral);
+            --color2: var(--prolongamento-adm);
+        }
+
         .horarios-section {
             background: var(--ksb-blue-light);
             padding: 20px;
@@ -215,6 +249,43 @@
             margin-bottom: 5px;
         }
 
+        .tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            border-bottom: 2px solid var(--border-color);
+        }
+
+        .tab {
+            padding: 12px 24px;
+            background: transparent;
+            border: none;
+            border-bottom: 3px solid transparent;
+            cursor: pointer;
+            font-weight: 600;
+            color: var(--text-secondary);
+            transition: all 0.3s;
+        }
+
+        .tab:hover {
+            color: var(--ksb-blue);
+            transform: none;
+            box-shadow: none;
+        }
+
+        .tab.active {
+            color: var(--ksb-blue);
+            border-bottom-color: var(--ksb-blue);
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
         .calendar-container {
             background: var(--bg-primary);
             padding: 20px;
@@ -240,28 +311,10 @@
             text-align: center;
             font-weight: 700;
             font-size: 1.2rem;
-            margin-bottom: 15px;
+            margin-bottom: 10px;
             color: var(--ksb-blue);
             padding-bottom: 10px;
             border-bottom: 2px solid var(--border-color);
-        }
-
-        .month-content {
-            display: grid;
-            grid-template-columns: 40px 1fr;
-            gap: 10px;
-        }
-
-        .calendar-grid-container {
-            display: grid;
-            grid-template-columns: 40px 1fr;
-            gap: 5px;
-            align-items: start;
-        }
-
-        .calendar-grid {
-            display: flex;
-            flex-direction: column;
         }
 
         .weekdays {
@@ -281,34 +334,28 @@
             border-radius: 4px;
         }
 
-        .week-numbers {
-            display: flex;
-            flex-direction: column;
+        .week-row {
+            display: grid;
+            grid-template-columns: auto repeat(7, 1fr);
             gap: 5px;
-            height: 100%;
+            align-items: stretch;
         }
 
-        .week-number {
-            flex: 1;
-            min-height: 45px;
+        .week-num-label {
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            text-align: center;
+            padding: 4px;
+            min-width: 25px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 0.75rem;
-            font-weight: 700;
-            color: var(--ksb-blue);
-            background: var(--ksb-blue-light);
-            border-radius: 4px;
-            border: 1px solid var(--border-color);
-        }
-            min-width: 35px;
-            padding: 8px 4px;
-            flex: 1;
         }
 
         .days-grid {
-            display: grid;
-            grid-template-columns: repeat(7, 1fr);
+            display: flex;
+            flex-direction: column;
             gap: 5px;
         }
 
@@ -324,12 +371,12 @@
             border: 2px solid transparent;
             transition: all 0.3s;
             background: var(--bg-primary);
-            min-height: 45px;
         }
 
         .day:hover {
             border-color: var(--ksb-blue);
             transform: scale(1.05);
+            z-index: 10;
         }
 
         .day.empty {
@@ -372,21 +419,22 @@
             font-weight: 700;
         }
 
-        .day.weekend {
-            background: var(--bg-secondary);
-            color: var(--text-secondary);
+        .day.feriado-trabalhado-todos {
+            background: var(--bg-primary);
+            border: 3px solid var(--text-primary) !important;
+            color: var(--feriado) !important;
+            font-weight: 900 !important;
+            font-size: 1rem !important;
         }
 
-        .day.sunday {
-            background: linear-gradient(135deg, var(--bg-secondary) 0%, var(--ksb-blue-light) 100%);
-            font-weight: 600;
+        .day.feriado-trabalhado-todos:hover {
+            box-shadow: 0 0 10px var(--feriado);
         }
 
+        /* Dias com divisão diagonal no calendário */
         .day.diagonal {
-            position: relative;
+            background: transparent !important;
             overflow: hidden;
-            color: white;
-            font-weight: 700;
         }
 
         .day.diagonal::before,
@@ -400,169 +448,31 @@
         }
 
         .day.diagonal::before {
-            background: var(--color1, var(--prolongamento-geral));
+            background: var(--color1);
             clip-path: polygon(0 0, 100% 0, 0 100%);
         }
 
         .day.diagonal::after {
-            background: var(--color2, var(--prolongamento-adm));
+            background: var(--color2);
             clip-path: polygon(100% 0, 100% 100%, 0 100%);
         }
 
         .day.diagonal span {
             position: relative;
             z-index: 1;
+            color: white;
+            font-weight: 700;
             text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
         }
 
-        .day.feriado-trabalhado-todos {
-            background: var(--bg-primary);
-            border: 3px solid var(--text-primary) !important;
-            color: var(--feriado) !important;
-            font-weight: 900 !important;
-            font-size: 1rem !important;
-        }
-
-        /* Dias com cores diagonais (eventos mistos) */
-        .day.diagonal-mixed {
-            position: relative;
-            overflow: hidden;
-            color: white;
-            font-weight: 700;
-        }
-
-        .day.diagonal-mixed::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: var(--color1);
-            clip-path: polygon(0 0, 100% 0, 0 100%);
-            z-index: -1;
-        }
-
-        .day.diagonal-mixed::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: var(--color2);
-            clip-path: polygon(100% 0, 100% 100%, 0 100%);
-            z-index: -1;
-        }
-
-        .day.diagonal-feriado-prolongamento {
-            --color1: var(--feriado);
-            --color2: var(--prolongamento-geral);
-        }
-
-        .day.diagonal-trabalhado-prolongamento {
-            --color1: var(--feriado-trabalhado);
-            --color2: var(--prolongamento-adm);
-        }
-
-        .day.feriado-trabalhado-todos:hover {
-            box-shadow: 0 0 10px var(--feriado);
-        }
-
-        /* Dias com cores diagonais */
-        .day.diagonal {
-            position: relative;
-            overflow: hidden;
-        }
-
-        .day.diagonal::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(to bottom right, var(--color1) 0%, var(--color1) 49%, transparent 49%, transparent 51%, var(--color2) 51%, var(--color2) 100%);
-            z-index: 0;
-        }
-
-        .day.diagonal span {
-            position: relative;
-            z-index: 1;
-            color: white;
-            font-weight: 900;
-            text-shadow: 1px 1px 3px rgba(0,0,0,0.5);
-        }
-
-        .legend-color.diagonal {
-            position: relative;
-            overflow: hidden;
-        }
-
-        .legend-color.diagonal::before,
-        .legend-color.diagonal::after {
-            content: '';
-            position: absolute;
-            width: 100%;
-            height: 100%;
-        }
-
-        .legend-color.diagonal::before {
-            background: var(--color1);
-            clip-path: polygon(0 0, 100% 0, 0 100%);
-        }
-
-        .legend-color.diagonal::after {
-            background: var(--color2);
-            clip-path: polygon(100% 0, 100% 100%, 0 100%);
-        }
-
-        /* Legendas específicas bicolores */
-        .legend-feriado-trabalhado {
-            --color1: var(--feriado);
-            --color2: var(--feriado-trabalhado);
-        }
-
-        .legend-prolongamento-misto {
-            --color1: var(--prolongamento-geral);
-            --color2: var(--prolongamento-adm);
-        }
-
-        .tabs {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 20px;
-            border-bottom: 2px solid var(--border-color);
-        }
-
-        .tab {
-            padding: 12px 24px;
-            background: transparent;
-            border: none;
-            border-bottom: 3px solid transparent;
-            cursor: pointer;
+        .day.sunday {
+            background: linear-gradient(135deg, var(--bg-secondary) 0%, var(--ksb-blue-light) 100%);
             font-weight: 600;
+        }
+
+        .day.weekend {
+            background: var(--bg-secondary);
             color: var(--text-secondary);
-            transition: all 0.3s;
-        }
-
-        .tab:hover {
-            color: var(--ksb-blue);
-            transform: none;
-            box-shadow: none;
-        }
-
-        .tab.active {
-            color: var(--ksb-blue);
-            border-bottom-color: var(--ksb-blue);
-        }
-
-        .tab-content {
-            display: none;
-        }
-
-        .tab-content.active {
-            display: block;
         }
 
         .stats-grid {
@@ -743,6 +653,27 @@
             line-height: 1.5;
         }
 
+        .info-banner {
+            background: var(--ksb-blue-light);
+            padding: 15px;
+            border-radius: 8px;
+            margin: 20px 0;
+            border-left: 4px solid var(--ksb-blue);
+        }
+
+        .info-banner p {
+            margin: 5px 0;
+            font-size: 0.9rem;
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin-top: 40px;
+        }
+
         @media (max-width: 768px) {
             .container {
                 padding: 10px;
@@ -772,56 +703,19 @@
                 font-size: 0.8rem;
             }
 
+            .week-num-label {
+                font-size: 0.65rem;
+                min-width: 20px;
+            }
+
             .weekday {
                 font-size: 0.7rem;
                 padding: 5px 2px;
             }
 
-            .calendar-grid-container {
-                grid-template-columns: 28px 1fr;
-                gap: 3px;
-            }
-
-            .week-number {
-                font-size: 0.65rem;
-                min-height: 38px;
-                padding: 2px;
-            }
-
             .modal-content {
                 padding: 20px;
             }
-
-            .stats-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        .info-banner {
-            background: var(--ksb-blue-light);
-            padding: 15px;
-            border-radius: 8px;
-            margin: 20px 0;
-            border-left: 4px solid var(--ksb-blue);
-        }
-
-        .info-banner p {
-            margin: 5px 0;
-            font-size: 0.9rem;
-        }
-
-        footer {
-            text-align: center;
-            padding: 20px;
-            color: var(--text-secondary);
-            font-size: 0.9rem;
-            margin-top: 40px;
-        }
-
-        .loading {
-            text-align: center;
-            padding: 40px;
-            color: var(--text-secondary);
         }
     </style>
 </head>
@@ -892,7 +786,7 @@
                 </div>
                 <div class="legend-item" onclick="showLegendInfo('prolongamento-geral')">
                     <div class="legend-color" style="background: var(--prolongamento-geral);"></div>
-                    <span class="legend-text">Prolongamento Geral</span>
+                    <span class="legend-text">Prolongamento Geral (Ponte)</span>
                 </div>
                 <div class="legend-item" onclick="showLegendInfo('prolongamento-adm')">
                     <div class="legend-color" style="background: var(--prolongamento-adm);"></div>
@@ -908,11 +802,7 @@
                 </div>
                 <div class="legend-item" onclick="showLegendInfo('exemplo-diagonal')">
                     <div class="legend-color diagonal legend-feriado-trabalhado"></div>
-                    <span class="legend-text">Exemplo: Feriado + Trabalhado</span>
-                </div>
-                <div class="legend-item" onclick="showLegendInfo('exemplo-prolongamento')">
-                    <div class="legend-color diagonal legend-prolongamento-misto"></div>
-                    <span class="legend-text">Exemplo: Prolongamentos Mistos</span>
+                    <span class="legend-text">Exemplo: Eventos Mistos (Diagonal)</span>
                 </div>
             </div>
         </div>
@@ -942,11 +832,9 @@
             <p>• Clique nos dias do calendário para ver informações específicas e compensações</p>
             <p>• <strong>Feriados trabalhados (todos)</strong> aparecem com <span style="color: var(--feriado); font-weight: 900;">número vermelho em negrito</span> e borda destacada</p>
             <p>• Os <strong>domingos</strong> têm um leve destaque em gradiente azul para fácil identificação</p>
-            <p>• <strong>Dias com cores diagonais</strong> indicam eventos mistos (diferentes tratamentos por turno)</p>
+            <p>• <strong>Números à esquerda de cada linha</strong> indicam a semana do ano (igual ao PDF)</p>
             <p>• Use a aba <strong>"Eventos & Estatísticas"</strong> para ver o resumo completo e contagem de folgas por turno</p>
             <p>• <strong>Prolongamento</strong> = "Ponte" ou dia de folga obtido por compensação de horas</p>
-            <p>• <strong>Números de semana</strong> à esquerda indicam a semana do ano (padrão ISO)</p>
-            <p>• Este calendário contempla os 3 turnos de trabalho da KSB Jundiaí</p>
         </div>
     </div>
 
@@ -954,7 +842,6 @@
         <p>© 2024 KSB Jundiaí - Calendário de Trabalho | Proposta para Votação</p>
     </footer>
 
-    <!-- Modal -->
     <div id="modal" class="modal" onclick="closeModalOnOutside(event)">
         <div class="modal-content">
             <div class="modal-header">
@@ -966,7 +853,6 @@
     </div>
 
     <script>
-        // Dados dos calendários
         const calendarData = {
             2026: {
                 horarios: {
@@ -979,33 +865,22 @@
                     "2026-01-01": {type: "feriado", name: "Confraternização Universal"},
                     "2026-01-02": {type: "prolongamento-geral", name: "Prolongamento (trabalhado em 21/04)"},
                     "2026-01-03": {type: "prolongamento-geral", name: "Prolongamento (trabalhado na tarde do dia 09/07)"},
-                    
                     "2026-02-16": {type: "prolongamento-adm", name: "Prolongamento Adm e 2º Turno - Troca horas SF 15/08", details: "** 1º e 3º Turno - Prolongamento - trabalhado em 15/08"},
                     "2026-02-17": {type: "prolongamento-geral", name: "Carnaval - Prolongamento - dia abonado pela empresa"},
-                    
                     "2026-03-03": {type: "feriado", name: "Paixão de Cristo", details: "** 1º Turno - Expediente do sábado dia 02/05 (5:00-13:30 hs)\n** 3º Turno - Expediente do sábado (dia 02/05)"},
-                    
                     "2026-04-21": {type: "feriado-trabalhado-todos", name: "Tiradentes - Expediente normal", details: "** TROCA pelo prolongamento dia 02/01"},
-                    
                     "2026-05-01": {type: "feriado", name: "Dia do Trabalho"},
                     "2026-05-02": {type: "prolongamento-geral", name: "Prolongamento (trabalhado em 03/04)"},
-                    
                     "2026-06-04": {type: "feriado", name: "Corpus Christi", details: "** 1º Turno - Expediente da sexta (5:00-12:42 hs)\n** 3º Turno - Expediente do sexta (dia 05/06)"},
                     "2026-06-05": {type: "prolongamento-adm", name: "Prolongamento Adm e 2º Turno (trabalhado em 09/07)", details: "** 1º Turno - Expediente do sábado (5:00-13:30 hs)\n** 3º Turno - Expediente do sábado (dia 06/06)"},
                     "2026-06-06": {type: "prolongamento-geral", name: "Prolongamento (trabalhado 05/06)"},
-                    
                     "2026-07-09": {type: "feriado-trabalhado-todos", name: "Revolução Constitucionalista - Expediente normal", details: "** Adm e 1º turno - troca prolongamento 05/06\n** 2º e 3º Turno - troca Expediente do sábado (dia 03/01)"},
-                    
                     "2026-08-15": {type: "feriado", name: "Padroeira da Cidade - Sábado Feriado", details: "** Adm e 2º Turno - Horas utilizadas na ponte dia 16/02\n** 1º e 3º Turno - Expediente normal - Troca pelo dia 16/02"},
-                    
                     "2026-09-07": {type: "feriado-trabalhado-todos", name: "Independência do Brasil", details: "** 1º Turno - Expediente do sábado dia 26/12 (5:00-13:30 hs)\n** 3º Turno - Expediente do sábado (dia 26/12)"},
-                    
                     "2026-10-12": {type: "feriado", name: "Nossa Senhora Aparecida", details: "** TROCA pelo prolongamento dia 24/12"},
-                    
                     "2026-11-02": {type: "feriado-trabalhado-todos", name: "Finados - Expediente normal", details: "** TROCA pelo prolongamento dia 24/12"},
                     "2026-11-15": {type: "feriado-trabalhado-todos", name: "Proclamação da República"},
                     "2026-11-20": {type: "feriado-trabalhado-todos", name: "Consciência Negra - Expediente normal", details: "** TROCA pelo prolongamento dia 31/12"},
-                    
                     "2026-12-24": {type: "prolongamento-geral", name: "Prolongamento (trabalhado em 02/11)"},
                     "2026-12-25": {type: "feriado", name: "Natal"},
                     "2026-12-26": {type: "prolongamento-geral", name: "Prolongamento (trabalhado em 12/10)"},
@@ -1022,35 +897,22 @@
                 events: {
                     "2027-01-01": {type: "feriado", name: "Confraternização Universal"},
                     "2027-01-02": {type: "prolongamento-geral", name: "Prolongamento (trabalhado em 26/03)", details: "** 1º Turno - Expediente do sábado - 02/01 (5:00-13:30 hs)\n** 3º Turno - Expediente do sábado - 02/01"},
-                    
                     "2027-02-08": {type: "prolongamento-geral", name: "Prolongamento (trabalhado em 21/04)", details: "** TROCA pelo prolongamento dia 08/02"},
                     "2027-02-09": {type: "prolongamento-geral", name: "Carnaval - Prolongamento - dia abonado pela empresa"},
-                    
                     "2027-03-26": {type: "feriado", name: "Paixão de Cristo"},
-                    
                     "2027-04-21": {type: "feriado-trabalhado-todos", name: "Tiradentes - Expediente normal"},
-                    
                     "2027-05-01": {type: "feriado", name: "Dia do Trabalho - Sábado feriado", details: "** Adm e 2º Turno - horas utilizadas na ponte dia 28/05"},
                     "2027-05-27": {type: "feriado", name: "Corpus Christi", details: "** 1º Turno - Expediente da sexta - 28/05 (5:00-12:42 hs)\n** 3º Turno - Expediente do sexta - 28/05"},
                     "2027-05-28": {type: "prolongamento-adm", name: "Prolongamento Adm e 2º Turno - Troca horas SF 01/05", details: "** 1º Turno - Expediente do sábado - 29/05 (5:00-13:30 hs)\n** 3º Turno - Expediente do sábado - 29/05"},
                     "2027-05-29": {type: "prolongamento-geral", name: "Prolongamento (trabalhado em 28/05)"},
-                    
                     "2027-07-09": {type: "feriado", name: "Revolução Constitucionalista", details: "** Adm e 2º Turno - Prolongamento - Troca horas SF - 25/12\n** 1º e 3º Turno - Prolongamento - trabalhado em 09/07"},
-                    "2027-07-11": {type: "prolongamento-adm", name: "Prolongamento Adm e 2º Turno"},
-                    "2027-07-12": {type: "prolongamento-geral", name: "Nossa Senhora Aparecida"},
-                    
                     "2027-08-15": {type: "feriado", name: "Padroeira da Cidade", details: "** 1º Turno - Expediente da segunda - 11/10 (5:00-12:42 hs)\n** 3º Turno - Expediente da segunda 11/10"},
-                    
                     "2027-09-06": {type: "prolongamento-geral", name: "Prolongamento (trabalhado em 07/09)", details: "** TROCA pelo prolongamento dia 06/09"},
                     "2027-09-07": {type: "feriado-trabalhado-todos", name: "Independência do Brasil - expediente normal"},
-                    
-                    "2027-10-11": {type: "feriado-trabalhado-todos", name: "Segunda prolongamento"},
                     "2027-10-12": {type: "feriado", name: "Nossa Senhora Aparecida"},
-                    
                     "2027-11-02": {type: "feriado-trabalhado-todos", name: "Finados - Expediente normal"},
                     "2027-11-15": {type: "feriado-trabalhado-todos", name: "Proclamação da República"},
                     "2027-11-20": {type: "feriado", name: "Consciência Negra - Sábado Feriado", details: "** Adm e 2º Turno - horas utilizadas na ponte dia 31/12\n** 1º e 3º Turno - Expediente normal - Troca pelo dia 31/12"},
-                    
                     "2027-12-24": {type: "prolongamento-geral", name: "Prolongamento (trabalhado em 02/11)", details: "** TROCA pelo prolongamento dia 24/12"},
                     "2027-12-25": {type: "feriado", name: "Natal - Sábado Feriado", details: "** Adm e 2º Turno - horas utilizadas na ponte dia 11/10"},
                     "2027-12-31": {type: "prolongamento-adm", name: "Prolongamento Adm e 2º Turno - troca horas SF 20/11", details: "** 1º e 3º Turno - Prolongamento - trabalhado em 20/11"}
@@ -1058,7 +920,6 @@
             }
         };
 
-        // Informações das legendas
         const legendInfo = {
             'feriado': {
                 title: 'Feriado',
@@ -1071,7 +932,7 @@
                 affects: '1º Turno e 3º Turno trabalham | Adm e 2º Turno não trabalham'
             },
             'prolongamento-geral': {
-                title: 'Prolongamento Geral',
+                title: 'Prolongamento Geral (Ponte)',
                 description: 'Dia de folga (prolongamento de fim de semana ou feriado) para todos os turnos. Geralmente obtido através de compensação em outros dias. Também chamado de "ponte".',
                 affects: 'Todos os turnos'
             },
@@ -1091,24 +952,17 @@
                 affects: 'Todos os turnos trabalham'
             },
             'exemplo-diagonal': {
-                title: 'Legendas com Dupla Cor (Diagonal)',
-                description: 'Alguns dias podem ter características mistas. As legendas com diagonal mostram quando um dia tem duas características diferentes, como um feriado que também é trabalhado por alguns turnos. A diagonal divide as cores para representar visualmente essa combinação.',
-                affects: 'Varia conforme a combinação'
-            },
-            'exemplo-prolongamento': {
-                title: 'Prolongamentos Mistos',
-                description: 'Quando diferentes turnos têm tratamentos diferentes no mesmo dia (ex: prolongamento para uns, trabalho normal para outros), a legenda diagonal ajuda a visualizar essa combinação.',
-                affects: 'Varia por turno'
+                title: 'Eventos Mistos (Divisão Diagonal)',
+                description: 'Alguns dias podem ter características mistas e aparecem com divisão diagonal no calendário. Por exemplo, um dia que é prolongamento para alguns turnos mas trabalho normal para outros. A diagonal divide as cores para representar visualmente essa combinação.',
+                affects: 'Varia conforme a combinação de eventos'
             }
         };
 
-        // Estado da aplicação
         let currentYear = 2026;
         let currentMonth = 0;
         let viewMode = 'year';
         let isDarkTheme = false;
 
-        // Inicialização
         document.addEventListener('DOMContentLoaded', function() {
             setupEventListeners();
             renderCalendar();
@@ -1139,12 +993,16 @@
             document.getElementById('themeToggle').addEventListener('click', toggleTheme);
         }
 
+        function toggleTheme() {
+            isDarkTheme = !isDarkTheme;
+            document.body.setAttribute('data-theme', isDarkTheme ? 'dark' : 'light');
+            document.getElementById('themeToggle').textContent = isDarkTheme ? '☀️ Tema Claro' : '🌙 Tema Escuro';
+        }
+
         function switchTab(tabName) {
-            // Remove active de todas as abas
             document.querySelectorAll('.tab').forEach(tab => tab.classList.remove('active'));
             document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
             
-            // Ativa a aba selecionada
             if (tabName === 'calendar') {
                 document.querySelector('.tab:nth-child(1)').classList.add('active');
                 document.getElementById('calendarTab').classList.add('active');
@@ -1152,12 +1010,6 @@
                 document.querySelector('.tab:nth-child(2)').classList.add('active');
                 document.getElementById('statsTab').classList.add('active');
             }
-        }
-
-        function toggleTheme() {
-            isDarkTheme = !isDarkTheme;
-            document.body.setAttribute('data-theme', isDarkTheme ? 'dark' : 'light');
-            document.getElementById('themeToggle').textContent = isDarkTheme ? '☀️ Tema Claro' : '🌙 Tema Escuro';
         }
 
         function renderHorarios() {
@@ -1215,27 +1067,11 @@
             container.innerHTML = renderMonth(currentMonth, months[currentMonth], true);
         }
 
+        // Função para calcular semana do ano (igual ao PDF - primeira semana é a que contém 1º de janeiro)
         function getWeekNumber(date) {
-            // Calcula a semana baseado no padrão KSB: 
-            // Semana 1 = primeira semana do ano (contém 1º de janeiro)
-            const currentDate = new Date(date);
-            const yearStart = new Date(date.getFullYear(), 0, 1);
-            
-            // Encontrar o domingo da semana que contém 1º de janeiro
-            const firstSunday = new Date(yearStart);
-            firstSunday.setDate(yearStart.getDate() - yearStart.getDay());
-            
-            // Se o 1º de janeiro cai depois de quinta, a semana 1 começa no próximo domingo
-            if (yearStart.getDay() === 0) {
-                firstSunday.setDate(yearStart.getDate());
-            }
-            
-            // Calcular diferença em semanas
-            const diffTime = currentDate - firstSunday;
-            const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
-            const weekNumber = Math.floor(diffDays / 7) + 1;
-            
-            return weekNumber;
+            const firstDayOfYear = new Date(date.getFullYear(), 0, 1);
+            const daysSinceStart = Math.floor((date - firstDayOfYear) / (24 * 60 * 60 * 1000));
+            return Math.ceil((daysSinceStart + firstDayOfYear.getDay() + 1) / 7);
         }
 
         function renderMonth(monthIndex, monthName, isLarge = false) {
@@ -1246,14 +1082,27 @@
             
             let html = `<div class="month-card">
                 <div class="month-header">${monthName} ${currentYear}</div>
-                <div class="calendar-grid-container">`;
+                <div class="weekdays">
+                    <div class="weekday">Dom</div>
+                    <div class="weekday">Seg</div>
+                    <div class="weekday">Ter</div>
+                    <div class="weekday">Qua</div>
+                    <div class="weekday">Qui</div>
+                    <div class="weekday">Sex</div>
+                    <div class="weekday">Sáb</div>
+                </div>
+                <div class="days-grid">`;
             
-            // Criar array de dias incluindo vazios
-            const allDays = [];
+            let dayCounter = 1;
+            let currentRow = [];
+            let weeks = [];
+            
+            // Criar array com todos os dias (incluindo vazios)
+            let allDays = [];
             
             // Dias vazios antes do início do mês
             for (let i = 0; i < startingDayOfWeek; i++) {
-                allDays.push({ type: 'empty' });
+                allDays.push({ isEmpty: true });
             }
             
             // Dias do mês
@@ -1262,102 +1111,60 @@
                 const dateStr = `${currentYear}-${String(monthIndex + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
                 const event = calendarData[currentYear].events[dateStr];
                 const dayOfWeek = date.getDay();
-                
-                let classes = 'day';
-                let eventType = '';
-                let isDiagonal = false;
-                
-                if (event) {
-                    classes += ` ${event.type}`;
-                    eventType = event.type;
-                    
-                    // Verificar se deve ter diagonal (eventos mistos)
-                    // Por exemplo, se details contém informações de turnos diferentes
-                    if (event.details && event.details.includes('**')) {
-                        const details = event.details.toLowerCase();
-                        if ((details.includes('adm') || details.includes('2º turno')) && 
-                            (details.includes('1º') || details.includes('3º'))) {
-                            isDiagonal = true;
-                        }
-                    }
-                } else if (dayOfWeek === 0) {
-                    classes += ' sunday';
-                } else if (dayOfWeek === 6) {
-                    classes += ' weekend';
-                }
+                const weekNum = getWeekNumber(date);
                 
                 allDays.push({
-                    type: 'day',
-                    day,
-                    classes,
-                    dateStr,
-                    monthName,
-                    eventType,
-                    isDiagonal
+                    isEmpty: false,
+                    day: day,
+                    date: date,
+                    dateStr: dateStr,
+                    event: event,
+                    dayOfWeek: dayOfWeek,
+                    weekNum: weekNum
                 });
             }
             
-            // Completar última semana com dias vazios se necessário
-            while (allDays.length % 7 !== 0) {
-                allDays.push({ type: 'empty' });
-            }
-            
-            // Calcular número de semanas
-            const numWeeks = allDays.length / 7;
-            
-            // Renderizar números de semana
-            html += '<div class="week-numbers">';
-            for (let week = 0; week < numWeeks; week++) {
-                // Calcular o dia que corresponde ao início desta linha (domingo)
-                const daysFromStart = week * 7;
-                const dayInMonth = 1 - startingDayOfWeek + daysFromStart;
-                const weekDate = new Date(currentYear, monthIndex, dayInMonth);
-                const weekNum = getWeekNumber(weekDate);
-                html += `<div class="week-number">${weekNum}</div>`;
-            }
-            html += '</div>';
-            
-            html += '<div class="calendar-grid">';
-            html += '<div class="weekdays">';
-            html += '<div class="weekday">Dom</div>';
-            html += '<div class="weekday">Seg</div>';
-            html += '<div class="weekday">Ter</div>';
-            html += '<div class="weekday">Qua</div>';
-            html += '<div class="weekday">Qui</div>';
-            html += '<div class="weekday">Sex</div>';
-            html += '<div class="weekday">Sáb</div>';
-            html += '</div>';
-            
-            html += '<div class="days-grid">';
-            allDays.forEach(item => {
-                if (item.type === 'empty') {
-                    html += '<div class="day empty"></div>';
-                } else {
-                    const dayContent = item.isDiagonal ? `<span>${item.day}</span>` : item.day;
-                    const diagonalClass = item.isDiagonal ? ' diagonal' : '';
-                    
-                    // Definir cores para diagonal baseado no tipo de evento
-                    let style = '';
-                    if (item.isDiagonal) {
-                        // Determinar cores baseadas no tipo de evento e detalhes
-                        let color1 = 'var(--prolongamento-geral)';
-                        let color2 = 'var(--prolongamento-adm)';
+            // Organizar em linhas de 7 dias
+            for (let i = 0; i < allDays.length; i += 7) {
+                const weekDays = allDays.slice(i, i + 7);
+                
+                // Encontrar o número da semana desta linha (pegar do primeiro dia não-vazio)
+                let weekNumber = 0;
+                for (let dayData of weekDays) {
+                    if (!dayData.isEmpty && dayData.weekNum) {
+                        weekNumber = dayData.weekNum;
+                        break;
+                    }
+                }
+                
+                html += `<div class="week-row">`;
+                html += `<div class="week-num-label">${weekNumber}</div>`;
+                
+                // Renderizar os 7 dias desta linha
+                weekDays.forEach(dayData => {
+                    if (dayData.isEmpty) {
+                        html += '<div class="day empty"></div>';
+                    } else {
+                        let classes = 'day';
+                        let eventType = '';
                         
-                        if (item.eventType === 'prolongamento-adm') {
-                            color1 = 'var(--prolongamento-adm)';
-                            color2 = 'var(--prolongamento-1turno)';
-                        } else if (item.eventType === 'feriado-trabalhado') {
-                            color1 = 'var(--feriado)';
-                            color2 = 'var(--feriado-trabalhado)';
+                        if (dayData.event) {
+                            classes += ` ${dayData.event.type}`;
+                            eventType = dayData.event.type;
+                        } else if (dayData.dayOfWeek === 0) {
+                            classes += ' sunday';
+                        } else if (dayData.dayOfWeek === 6) {
+                            classes += ' weekend';
                         }
                         
-                        style = ` style="--color1: ${color1}; --color2: ${color2};"`;
+                        html += `<div class="${classes}" onclick="showDayInfo('${dayData.dateStr}', ${dayData.day}, '${monthName}', '${eventType}')">${dayData.day}</div>`;
                     }
-                    
-                    html += `<div class="${item.classes}${diagonalClass}"${style} onclick="showDayInfo('${item.dateStr}', ${item.day}, '${item.monthName}', '${item.eventType}')">${dayContent}</div>`;
-                }
-            });
-            html += '</div></div></div></div>';
+                });
+                
+                html += '</div>'; // Fecha week-row
+            }
+            
+            html += '</div></div>'; // Fecha days-grid e month-card
             return html;
         }
 
@@ -1368,13 +1175,18 @@
                 const date = new Date(dateStr);
                 const dayOfWeek = date.getDay();
                 if (dayOfWeek === 0 || dayOfWeek === 6) {
-                    showModal(`${day} de ${month} - Final de Semana`, 
+                    const weekNum = getWeekNumber(date);
+                    showModal(`${day} de ${month} (Semana ${weekNum}) - Final de Semana`, 
                              '<p>Este é um dia de final de semana. Consulte os horários específicos de cada turno.</p>');
                 }
                 return;
             }
             
-            let content = `<p><strong>Tipo:</strong> ${legendInfo[eventType]?.title || 'Evento'}</p>`;
+            const date = new Date(dateStr);
+            const weekNum = getWeekNumber(date);
+            
+            let content = `<p><strong>Semana do Ano:</strong> ${weekNum}</p>`;
+            content += `<p><strong>Tipo:</strong> ${legendInfo[eventType]?.title || 'Evento'}</p>`;
             content += `<p><strong>Descrição:</strong> ${event.name}</p>`;
             
             if (event.details) {
@@ -1391,7 +1203,7 @@
             
             content += `<p style="margin-top: 15px;"><strong>Afeta:</strong> ${legendInfo[eventType]?.affects || 'Verificar observações'}</p>`;
             
-            showModal(`${day} de ${month} de ${currentYear}`, content);
+            showModal(`${day} de ${month} de ${currentYear} (Semana ${weekNum})`, content);
         }
 
         function showLegendInfo(type) {
@@ -1409,7 +1221,6 @@
             
             const events = calendarData[currentYear].events;
             
-            // Calcular estatísticas
             const stats = {
                 totalFeriados: 0,
                 feriadosTrabalhados1e3: 0,
@@ -1445,7 +1256,6 @@
                 }
             });
             
-            // Calcular dias de folga por turno
             const folgasAdm = stats.totalFeriados + stats.prolongamentosGeral + stats.prolongamentosAdm;
             const folgas1Turno = stats.totalFeriados + stats.prolongamentosGeral + stats.prolongamentos1Turno;
             const folgas2Turno = stats.totalFeriados + stats.prolongamentosGeral + stats.prolongamentosAdm;
@@ -1465,7 +1275,7 @@
                 </div>
                 
                 <div class="stat-card">
-                    <h4>Prolongamentos Gerais</h4>
+                    <h4>Prolongamentos/Pontes Gerais</h4>
                     <div class="stat-value">${stats.prolongamentosGeral}</div>
                     <div class="stat-label">folga para todos</div>
                 </div>
@@ -1520,8 +1330,6 @@
             `;
             
             document.getElementById('statsGrid').innerHTML = statsHTML;
-            
-            // Renderizar lista de eventos
             renderEventsList();
         }
 
@@ -1529,7 +1337,6 @@
             const events = calendarData[currentYear].events;
             const eventsList = document.getElementById('eventsList');
             
-            // Converter eventos em array e ordenar por data
             const eventsArray = Object.entries(events).map(([dateStr, event]) => {
                 return {
                     dateStr,
@@ -1547,10 +1354,11 @@
                 const day = event.date.getDate();
                 const month = months[event.date.getMonth()];
                 const typeLabel = legendInfo[event.type]?.title || event.type;
+                const weekNum = getWeekNumber(event.date);
                 
                 html += `
                     <div class="event-item" onclick="showDayInfo('${event.dateStr}', ${day}, '${month}', '${event.type}')">
-                        <div class="event-date">${day} de ${month}</div>
+                        <div class="event-date">${day} de ${month} (Semana ${weekNum})</div>
                         <div class="event-name">${event.name}</div>
                         <span class="event-type ${event.type}">${typeLabel}</span>
                     </div>
@@ -1576,7 +1384,6 @@
             }
         }
 
-        // Tecla ESC fecha o modal
         document.addEventListener('keydown', function(e) {
             if (e.key === 'Escape') {
                 closeModal();
